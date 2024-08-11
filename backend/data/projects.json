@@ -1,0 +1,14 @@
+[
+  {
+    "id": "b42460a9-79e9-4618-bad9-dbf97db01ccd",
+    "title": "Test Project 1",
+    "description": "This is the first project.\nYou can use it to test your function.",
+    "createdAt": "2024-08-06T05:12:27.128Z",
+    "createdBy": "admin",
+    "participants": [
+      "test1",
+      "test3",
+      "admin"
+    ]
+  }
+]
