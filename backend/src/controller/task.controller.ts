@@ -13,6 +13,13 @@ export class TaskController {
         return { message: 'Task created', task };
     }
 
+    // 获取所有任务
+    @Get('/')
+    async getAllTasks() {
+        const allTasks = await this.taskService.loadTasks();
+        return allTasks;
+    }
+
     // 获取任务列表
     @Get('/projects/:projectId')
     async getTasks(@Param('projectId') projectId: string, @Query('status') status: string) {
