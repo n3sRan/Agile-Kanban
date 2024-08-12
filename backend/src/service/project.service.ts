@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { Provide } from '@midwayjs/core';
-import { Project } from '../model/project.model'; // 导入 Project 接口
+import { Project } from '../model/project.model';
+import { TaskService } from './task.service';
 
 @Provide()
 export class ProjectService {
@@ -70,6 +71,13 @@ export class ProjectService {
             if (index === -1) {
                 throw new Error('Project not found');
             }
+
+            const taskService = new TaskService();
+            const tasks = await taskService.listTasks(id);
+            for (const task of tasks) {
+                await taskService.deleteTask(task.id);
+            }
+
             projects.splice(index, 1);
             await this.saveProjects(projects);
         } catch (error) {

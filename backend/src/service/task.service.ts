@@ -2,6 +2,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { Provide } from '@midwayjs/core';
 import { Task } from '../model/task.model'
+import { CommentService } from './comment.service';
+import { AttachmentService } from './attachment.service';
 
 @Provide()
 export class TaskService {
@@ -34,7 +36,7 @@ export class TaskService {
     }
 
     // 新增任务
-    async create(taskData: any): Promise<Task> {
+    async createTask(taskData: any): Promise<Task> {
         const tasks = await this.loadTasks();
         const newTask: Task = {
             ...taskData,
@@ -45,7 +47,7 @@ export class TaskService {
     }
 
     // 列出指定项目的任务
-    async list(projectId: string, status?: string): Promise<Task[]> {
+    async listTasks(projectId: string, status?: string): Promise<Task[]> {
         const tasks = await this.loadTasks();
         let filteredTasks = tasks.filter(task => task.projectId === projectId);
         if (status) {
@@ -55,7 +57,7 @@ export class TaskService {
     }
 
     // 更新任务
-    async update(taskId: string, taskData: any): Promise<Task> {
+    async updateTask(taskId: string, taskData: any): Promise<Task> {
         const tasks = await this.loadTasks();
         const index = tasks.findIndex(task => task.id === taskId);
         if (index === -1) {
@@ -67,13 +69,27 @@ export class TaskService {
     }
 
     // 删除指定任务
-    async delete(taskId: string): Promise<void> {
+    async deleteTask(taskId: string): Promise<void> {
         try {
             const tasks = await this.loadTasks();
             const index = tasks.findIndex(task => task.id === taskId);
             if (index === -1) {
                 throw new Error('Task not found');
             }
+
+            const commentService = new CommentService();
+            const comments = await commentService.listComments(taskId);
+            for (const comment of comments) {
+                await commentService.deleteComment(comment.id);
+            }
+
+            const attachmentService = new AttachmentService();
+            const attachments = await attachmentService.getAttachments();
+            const taskAttachments = attachments.filter(attachment => attachment.taskId === taskId);
+            for (const attachment of taskAttachments) {
+                await attachmentService.deleteAttachment(attachment.id);
+            }
+
             tasks.splice(index, 1);
             await this.saveTasks(tasks);
         } catch (error) {

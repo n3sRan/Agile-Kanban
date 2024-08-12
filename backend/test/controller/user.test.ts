@@ -29,7 +29,7 @@ describe('UserController Integration Test', () => {
 
     // 登录
     it('should log a user in', async () => {
-        const result = await createHttpRequest(app).post('/users/login').send({ username: 'test1', password: 'test1' });
+        const result = await createHttpRequest(app).post('/users/login').send({ username: 'admin', password: 'admin' });
         expect(result.status).toBe(200);
         // Add assertions for the data returned
     });

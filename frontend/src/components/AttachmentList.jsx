@@ -49,7 +49,7 @@ const UploadFile = ({ taskId, dispatch, currentUser }) => {
                 <span className="ml-2">{fileName}</span>
                 <button
                     type="submit"
-                    className="bg-blue-500 font-bold text-white px-4 py-1 rounded hover:bg-blue-700 ml-2"
+                    className={`${files ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-500'} font-bold text-white px-4 py-1 rounded ml-2`}
                 >
                     Upload File
                 </button>

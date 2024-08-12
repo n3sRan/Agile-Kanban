@@ -33,7 +33,7 @@ export class CommentService {
     }
 
     // 新增评论
-    async create(taskId: string, commentData: any): Promise<Comment> {
+    async createComment(taskId: string, commentData: any): Promise<Comment> {
         const comments = await this.loadComments();
         const newComment: Comment = {
             taskId,
@@ -45,13 +45,13 @@ export class CommentService {
     }
 
     // 加载指定任务的评论列表
-    async list(taskId: string): Promise<Comment[]> {
+    async listComments(taskId: string): Promise<Comment[]> {
         const comments = await this.loadComments();
         return comments.filter(comment => comment.taskId === taskId);
     }
 
     // 删除评论
-    async delete(commentId: string): Promise<void> {
+    async deleteComment(commentId: string): Promise<void> {
         const comments = await this.loadComments();
         const index = comments.findIndex(comment => comment.id === commentId);
         if (index === -1) {
@@ -62,7 +62,7 @@ export class CommentService {
     }
 
     // 点赞
-    async like(commentId: string): Promise<Comment> {
+    async likeComment(commentId: string): Promise<Comment> {
         const comments = await this.loadComments();
         const index = comments.findIndex(comment => comment.id === commentId);
         if (index === -1) {
