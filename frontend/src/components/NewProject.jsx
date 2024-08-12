@@ -12,9 +12,9 @@ import { v4 as uuidv4 } from 'uuid';
 const NewProject = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // 获取当前登录的用户名
-    const currentUser = useSelector(state => state.login.user?.username || 'User');
-    // 获取所有用户列表以供选择项目参与者
+    // 获取当前登录的用户
+    const currentUser = useSelector(state => state.login.user?.username || 'NOT LOGGED IN');
+    // 获取用户列表以供选择项目参与者
     const users = useSelector(state => state.users.users);
 
     const [title, setTitle] = useState('');
@@ -24,6 +24,7 @@ const NewProject = () => {
     // 在组件加载时获取用户列表
     useEffect(() => {
         dispatch(fetchUsers());
+        console.log("Loaded Users at New Project.")
     }, [dispatch]);
 
     //处理提交
@@ -47,7 +48,7 @@ const NewProject = () => {
 
         // 更新项目列表
         dispatch(fetchProjects());
-        console.log("Updated Project List.")
+        console.log("Updated Projects.")
         navigate('/dashboard/projects', { replace: true });
     };
 
@@ -72,6 +73,8 @@ const NewProject = () => {
     // 添加动画
     const animatedComponents = makeAnimated();
 
+    const titleStyle = "block text-gray-700 text-lg font-bold mb-2"
+
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-3xl font-semibold mb-4">Create New Project</h2>
@@ -79,7 +82,7 @@ const NewProject = () => {
 
                 {/* 项目名称 */}
                 <div className="mb-4">
-                    <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="title" className={titleStyle}>
                         Project Title:
                     </label>
                     <input
@@ -94,7 +97,7 @@ const NewProject = () => {
 
                 {/* 项目描述 */}
                 <div className="mb-4">
-                    <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="description" className={titleStyle}>
                         Description:
                     </label>
                     <textarea
@@ -107,7 +110,7 @@ const NewProject = () => {
 
                 {/* 项目参与者 */}
                 <div className="mb-4">
-                    <h3 className="block text-gray-700 text-sm font-bold mb-2">Participants:</h3>
+                    <h3 className={titleStyle}>Participants:</h3>
                     <Select
                         isMulti
                         options={options}

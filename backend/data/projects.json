@@ -1,14 +1,14 @@
 [
   {
-    "id": "b42460a9-79e9-4618-bad9-dbf97db01ccd",
-    "title": "Test Project 1",
-    "description": "This is the first project.\nYou can use it to test your function.",
-    "createdAt": "2024-08-06T05:12:27.128Z",
-    "createdBy": "admin",
+    "id": "92b40389-e054-4a42-9fd6-450517057452",
+    "title": "Agile Kanban",
+    "description": "This is a Web Development Lab.",
+    "createdAt": "2024-08-12T08:35:18.319Z",
+    "createdBy": "Maple",
     "participants": [
-      "test1",
-      "test3",
-      "admin"
+      "Jason",
+      "Tom",
+      "Maple"
     ]
   }
 ]

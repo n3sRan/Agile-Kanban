@@ -8,6 +8,17 @@ export const fetchUsers = createAsyncThunk('users/fetchAll', async () => {
     return response.data;
 });
 
+export const registerUser = createAsyncThunk('users/register',
+    async ({ username, password }, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(usersUrl, { username, password });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 const userSlice = createSlice({
     name: 'users',
     initialState: {
@@ -29,6 +40,19 @@ const userSlice = createSlice({
         .addCase(fetchUsers.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
+        })
+        .addCase(registerUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(registerUser.fulfilled, (state, action) => {
+            state.users.push(action.payload);
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(registerUser.rejected, (state, action) => {
+            state.error = action.error.message;
+            state.loading = false;
         });
     },
 });

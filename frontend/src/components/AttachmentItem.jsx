@@ -33,13 +33,13 @@ const AttachmentItem = ({ attachment, currentUser, dispatch }) => {
                         {attachment.filename}
                     </div>
                     <div className='text-md'>
-                        Uploaded By {attachment.uploadBy}.
+                        Uploaded By <span className="font-semibold">{attachment.uploadBy}</span>
                     </div>
                 </div>
 
-                <div>
+                <div className='justify-end'>
                     <div className="text-gray-500 text-md">
-                        {moment(attachment.uploadAt).fromNow()}
+                        {moment(attachment.uploadAt).format('lll')}
                     </div>
                     {attachment.uploadBy === currentUser && (
                         <DeleteAttachmentButton attachmentId={attachment.id} taskId={attachment.taskId} dispatch={dispatch} />

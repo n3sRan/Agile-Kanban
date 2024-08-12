@@ -32,12 +32,11 @@ export class APIController {
   }
 
   @Del('/upload/:id')
-  async deleteAttachment(@Param('id') id: string) {
+  async deleteAttachment(@Param('id') id: string): Promise<{ message: string }> {
     try {
-      await this.attachmentService.deleteAttachment(id);
-      return { message: 'Attachment deleted successfully.' };
+      return await this.attachmentService.deleteAttachment(id);
     } catch (error) {
-      return { error: error.message };
+      return { message: error.message };
     }
   }
 }

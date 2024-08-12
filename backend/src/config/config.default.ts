@@ -1,5 +1,5 @@
 import { MidwayConfig } from '@midwayjs/core';
-import { uploadWhiteList } from '@midwayjs/upload';
+// import { uploadWhiteList } from '@midwayjs/upload';
 import { tmpdir } from 'os';
 import { join } from 'path';
 
@@ -15,7 +15,7 @@ export default {
     // fileSize: string, 最大上传文件大小，默认为 10mb
     fileSize: '10mb',
     // whitelist: string[]，文件扩展名白名单
-    whitelist: uploadWhiteList.filter(ext => ext !== '.pdf'),
+    whitelist: null,
     // tmpdir: string，上传的文件临时存储路径
     tmpdir: join(tmpdir(), 'midway-upload-files'),
     // cleanTimeout: number，上传的文件在临时目录中多久之后自动删除，默认为 5 分钟

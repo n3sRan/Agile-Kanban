@@ -53,6 +53,7 @@ const AppRouter = () => {
                     </Route>
                 </Route>
                 {/* 404界面 */}
+                <Route path="/not-found" element={<NotFound />} />
                 <Route path="/*" element={<NotFound />} />
             </Routes>
         </Router>

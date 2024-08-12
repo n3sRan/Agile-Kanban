@@ -85,6 +85,8 @@ const ProjectEdit = () => {
         goBack()
     };
 
+    const titleStyle = "block text-gray-700 text-lg font-bold mb-2"
+
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-3xl font-semibold mb-4">Edit Project</h2>
@@ -92,7 +94,7 @@ const ProjectEdit = () => {
 
                 {/* 项目名称 */}
                 <div className="mb-4">
-                    <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="title" className={titleStyle}>
                         Project Title:
                     </label>
                     <input
@@ -107,7 +109,7 @@ const ProjectEdit = () => {
 
                 {/* 项目描述 */}
                 <div className="mb-4">
-                    <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="description" className={titleStyle}>
                         Description:
                     </label>
                     <textarea
@@ -120,7 +122,7 @@ const ProjectEdit = () => {
 
                 {/* 项目参与者 */}
                 <div className="mb-4">
-                    <h3 className="block text-gray-700 text-sm font-bold mb-2">Participants:</h3>
+                    <h3 className={titleStyle}>Participants:</h3>
                     <Select
                         isMulti
                         options={options}

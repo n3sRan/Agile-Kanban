@@ -7,13 +7,13 @@ import ProjectItem from './ProjectItem'
 const ProjectList = () => {
     // 读取项目列表
     const projects = useSelector(state => state.projects.projects);
-    const currentUser = useSelector(state => state.login.user?.username || 'User');
+    const currentUser = useSelector(state => state.login.user?.username || 'NOT LOGGED IN');
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (!projects || projects.length === 0) {
             dispatch(fetchProjects());
-            console.log(" Project List Loaded.");
+            console.log(" Projects Loaded in List.");
 
         }
     }, [projects, dispatch]);

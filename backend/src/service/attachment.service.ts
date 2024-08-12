@@ -64,6 +64,7 @@ export class AttachmentService {
         await fs.writeFile(this.attachmentsJsonPath, JSON.stringify(attachments, null, 2));
     }
 
+    // 获取附件列表
     async getAttachments(): Promise<Attachment[]> {
         let attachments = [];
 
@@ -78,6 +79,7 @@ export class AttachmentService {
         return attachments;
     }
 
+    // 删除指定附件
     async deleteAttachment(id: string): Promise<{ message: string }> {
         try {
             const attachments = await this.getAttachments();
@@ -85,9 +87,9 @@ export class AttachmentService {
             if (!attachment) {
                 return { message: 'Attachment not found.' };
             }
-
+            const deletedPath = path.join(__dirname, '..', '..', 'data', 'attachments', id);
             // 删除文件
-            await fs.rm(attachment.path, { recursive: true });
+            await fs.rm(deletedPath, { recursive: true });
 
             // 从json文件中移除该文件的记录
             const updatedAttachments = attachments.filter((a) => a.id !== id);

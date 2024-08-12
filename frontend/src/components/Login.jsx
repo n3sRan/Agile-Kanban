@@ -19,11 +19,11 @@ const Login = () => {
             const response = await axios.post(loginUrl, { username, password });
             const user = { username };
             dispatch(login(user));
-            console.log(`登录成功, Username: ${username}, Password:${password}, ${response.data}`);
+            console.log(`Login successful, ${username}.`);
             navigate('/dashboard', { replace: true });
         } catch (error) {
-            alert('登录失败');
-            console.error('登录失败:', error);
+            alert('Login failed');
+            console.error('Login failed:', error);
         }
     };
 

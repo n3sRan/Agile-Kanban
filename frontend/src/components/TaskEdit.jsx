@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateTask, fetchTasks } from '../store/modules/taskStore';
@@ -20,13 +20,10 @@ const TaskEdit = () => {
     const project = useSelector(state => state.projects.projects.find(project => project.id === task.projectId));
     const participants = project ? project.participants : [];
 
-    const status = ['NOT START', 'PROGRESSING', 'COMPLETED'];
+    const status = ['NOT START', 'PROGRESSING', 'COMPLETED', 'REVIEWED'];
 
     const [title, setTitle] = useState(task.title);
     const [description, setDescription] = useState(task.description);
-
-
-
 
     // 处理返回
     const goBack = () => {

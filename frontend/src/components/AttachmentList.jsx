@@ -4,6 +4,7 @@ import { uploadAttachment, fetchAttachments } from '../store/modules/attachmentS
 import { useParams } from "react-router-dom";
 import AttachmentItem from './AttachmentItem';
 
+// 上传附件
 const UploadFile = ({ taskId, dispatch, currentUser }) => {
 
     const [files, setFiles] = useState(null);
@@ -44,6 +45,7 @@ const UploadFile = ({ taskId, dispatch, currentUser }) => {
                         className="hidden"
                     />
                 </label>
+
                 <span className="ml-2">{fileName}</span>
                 <button
                     type="submit"
@@ -101,7 +103,7 @@ const AttachmentList = () => {
             <div className="mt-4 mb-4">
 
                 {/* 标题 */}
-                <h2 className="text-3xl font-bold mb-4">
+                <h2 className="text-2xl font-bold mb-4">
                     Attachments
                 </h2>
 

@@ -29,6 +29,7 @@ const CommentBox = ({ taskId, currentUser, dispatch }) => {
     return (
         <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200 mt-4">
             <form onSubmit={handleSubmit}>
+                {/* 输入框 */}
                 <textarea
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={content}
@@ -61,7 +62,7 @@ const CommentList = () => {
 
     useEffect(() => {
         dispatch(fetchComments(taskId));
-        console.log("Got Comments.");
+        console.log("Loaded Comments.");
     }, [dispatch, taskId]);
 
     if (loading) {
@@ -89,7 +90,7 @@ const CommentList = () => {
             <div className="mt-4 mb-4">
 
                 {/* 标题 */}
-                <h2 className="text-3xl font-bold mb-4">
+                <h2 className="text-2xl font-bold mb-4">
                     Comments
                 </h2>
 

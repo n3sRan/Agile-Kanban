@@ -68,6 +68,8 @@ const NewTask = () => {
     const options = formatParticipantsAsOptions(participants);
     const animatedComponents = makeAnimated();
 
+    const titleStyle = "block text-gray-700 text-lg font-bold mb-2"
+
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-3xl font-semibold mb-4">Create New Task</h2>
@@ -75,7 +77,7 @@ const NewTask = () => {
 
                 {/* 任务名称 */}
                 <div className="mb-4">
-                    <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="title" className={titleStyle}>
                         Task Title:
                     </label>
                     <input
@@ -90,7 +92,7 @@ const NewTask = () => {
 
                 {/* 任务描述 */}
                 <div className="mb-4">
-                    <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+                    <label htmlFor="description" className={titleStyle}>
                         Description:
                     </label>
                     <textarea
@@ -103,7 +105,7 @@ const NewTask = () => {
 
                 {/* 任务负责人 */}
                 <div className="mb-4">
-                    <h3 className="block text-gray-700 text-sm font-bold mb-2">Assign To:</h3>
+                    <h3 className={titleStyle}>Assign To:</h3>
                     <Select
                         options={options}
                         value={assignedTo}

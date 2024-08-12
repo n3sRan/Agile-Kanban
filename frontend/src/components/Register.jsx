@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { registerUser, fetchUsers } from '../store/modules/userStore';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Register = () => {
     const navigate = useNavigate();
-    const registerUrl = 'http://127.0.0.1:7001/users';
+    const dispatch = useDispatch();
+
+    const users = useSelector(state => state.users.users);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    useEffect(() => {
+        dispatch(fetchUsers());
+    }, [dispatch]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const userExists = users.some((user) => user.username === username);
+        if (userExists) {
+            alert('Username already exists');
+            return;
+        }
 
         if (password !== confirmPassword) {
             alert('Passwords do not match');
@@ -18,15 +31,15 @@ const Register = () => {
         }
 
 
-        try {
-            const response = await axios.post(registerUrl, { username, password });
+        await dispatch(registerUser({ username, password })).then(() => {
             alert('Registered Successfully');
             console.log('Registered Successfully');
             navigate('/login');
-        } catch (error) {
-            alert('Registered Failed');
-            console.error('Registered Failed:', error);
-        }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+
+
     };
 
     return (
@@ -82,6 +95,13 @@ const Register = () => {
                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Register
                         </button>
+                    </div>
+
+                    {/* 取消 */}
+                    <div className="flex items-center justify-center mt-4">
+                        <Link to="/login" className="text-blue-500 hover:underline">
+                            Cancel
+                        </Link>
                     </div>
 
                 </form>

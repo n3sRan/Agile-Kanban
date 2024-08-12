@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate, Link } from "react-router-dom";
+import { Outlet, useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import { logout } from "../store/modules/loginStore";
 
 const Dashboard = () => {
@@ -8,13 +8,16 @@ const Dashboard = () => {
     const isLoggedIn = useSelector(state => state.login.isLoggedIn);
     // 读取当前登录的用户
     const username = useSelector(state => state.login.user?.username || 'User');
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [greeting, setGreeting] = useState("Welcome");
 
-    const dispatch = useDispatch();
 
     // 确定问候语
     useEffect(() => {
+        console.log("Confirm greetings...");
         const currentHour = new Date().getHours();
         if (currentHour >= 5 && currentHour < 12) {
             setGreeting("Good morning");
@@ -27,10 +30,13 @@ const Dashboard = () => {
 
     // 检查登录状态
     useEffect(() => {
+        console.log("Checking login status...");
         if (!isLoggedIn) {
             navigate('/login', { replace: true });
         }
     }, [isLoggedIn, navigate]);
+
+    const navStyle = "font-bold border border-gray-300 px-4 py-2 rounded-md";
 
     return (
         <div className="min-h-screen  flex flex-col">
@@ -44,20 +50,16 @@ const Dashboard = () => {
                     <nav className="flex space-x-4">
                         {/* 项目列表 */}
                         <Link to="/dashboard/projects" className="text-gray-600 hover:text-gray-900">
-                            <button className="border border-gray-300 px-4 py-2 rounded-md">Projects List</button>
+                            <button className={navStyle}>Projects List</button>
                         </Link>
                         {/* 新增项目 */}
                         <Link to="/dashboard/projects/new" className="text-gray-600 hover:text-gray-900">
-                            <button className="border border-gray-300 px-4 py-2 rounded-md">New Project</button>
-                        </Link>
-                        {/* 设置 */}
-                        <Link to="/settings" className="text-gray-600 hover:text-gray-900">
-                            <button className="border border-gray-300 px-4 py-2 rounded-md">Settings</button>
+                            <button className={navStyle}>New Project</button>
                         </Link>
                         {/* 登出 */}
                         <button onClick={() => {
                             dispatch(logout());
-                        }} className="border border-gray-300 px-4 py-2 rounded-md">Logout</button>
+                        }} className={navStyle}>Logout</button>
 
                     </nav>
                 </div>

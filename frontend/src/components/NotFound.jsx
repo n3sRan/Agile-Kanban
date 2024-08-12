@@ -1,7 +1,7 @@
 const NotFound = () => {
     return (
         <div>
-            404错误
+            404 Not Found
         </div>
     )
 }

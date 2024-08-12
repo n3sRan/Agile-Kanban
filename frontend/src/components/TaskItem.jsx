@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { deleteTask, fetchTasks, updateTask } from '../store/modules/taskStore';
@@ -48,10 +48,12 @@ export const EditButton = ({ taskId, projectId, navigate, back }) => {
 }
 
 // 状态按钮
-export const StatusButton = ({ task, dispatch }) => {
+export const StatusButton = ({ task, dispatch, currentUser, createdBy }) => {
     let nextStatus = 'COMPLETED';
     if (task.status === 'NOT START') {
         nextStatus = 'PROGRESSING';
+    } else if (task.status === 'COMPLETED') {
+        nextStatus = 'REVIEWED';
     }
 
     const handleClick = () => {
@@ -85,6 +87,14 @@ export const StatusButton = ({ task, dispatch }) => {
                     Complete
                 </button>
             )}
+            {task.status === 'COMPLETED' && currentUser === createdBy && (
+                <button
+                    onClick={handleClick}
+                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-4"
+                >
+                    Review
+                </button>
+            )}
         </>
     )
 }
@@ -98,22 +108,20 @@ const DetailButton = ({ projectId, taskId, navigate }) => {
     return (
         <button
             onClick={handleDetail}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-        >
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
             View Details
         </button>
     )
 }
 
-const TaskItem = ({ task, currentUser }) => {
+const TaskItem = ({ task, currentUser, dispatch, }) => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
 
     // 获取项目创建者
     const project = task ? useSelector(state => state.projects.projects.find(project => project.id === task.projectId)) : null;
-    const createdBy = project ? project.createdBy : '';
+    const createdBy = project ? project.createdBy : 'Unknown';
 
     return (
         <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200 hover:bg-gray-100">
@@ -128,7 +136,6 @@ const TaskItem = ({ task, currentUser }) => {
                 <div>
                     Assigned to <span className='font-bold'>{task.assignedTo}</span>
                 </div>
-
             </div>
 
             {/* 交互按钮 */}
@@ -139,8 +146,7 @@ const TaskItem = ({ task, currentUser }) => {
                     <DetailButton projectId={task.projectId} taskId={task.id} navigate={navigate} />
                     <span className='mr-2'></span>
                     {/* 状态按钮 */}
-                    {task.assignedTo === currentUser && (<StatusButton task={task} dispatch={dispatch} />)}
-
+                    {task.assignedTo === currentUser && (<StatusButton task={task} dispatch={dispatch} currentUser={currentUser} createdBy={createdBy} />)}
                 </div>
 
                 {createdBy === currentUser && (

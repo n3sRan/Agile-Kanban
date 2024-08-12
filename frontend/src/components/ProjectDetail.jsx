@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useNavigate, Outlet } from 'react-router-dom';
 import { fetchProjects, deleteProject } from '../store/modules/projectStore';
 
 // 返回按钮
-const BackButton = () => {
+const BackButton = ({ projectId }) => {
+    const { taskId } = useParams();
+    let navigatePath = "/dashboard/projects";
+
+    if (taskId) {
+        navigatePath = `/dashboard/projects/${projectId}`;
+    }
+
     return (
-        <Link to="/dashboard/projects"
+        <Link to={navigatePath}
             className="bg-gray-500 hover:bg-gray-700 
                 text-lg text-white hover:text-white 
                 font-bold 
                 py-2 px-4 rounded ">
-            Project List
+            Back
         </Link>
     );
 }
@@ -88,34 +95,52 @@ const TasksButton = ({ projectId }) => {
 const ProjectDetail = () => {
     const navigate = useNavigate();
     const { projectId } = useParams();
-    const projects = useSelector(state => state.projects.projects);
-    const project = projects.find(project => project.id === projectId);
-    const currentUser = useSelector(state => state.login.user?.username || 'User');
 
+    const projects = useSelector(state => state.projects.projects);
+    let project = projects.find(project => project.id === projectId);
+    const currentUser = useSelector(state => state.login.user?.username || 'NOT LOGGED IN');
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!projects || projects.length === 0) {
+            dispatch(fetchProjects());
+            console.log(" Projects Loaded in Detail.");
+        }
+        project = projects.find(project => project.id === projectId);
+    }, [projects, dispatch]);
+
+    const title = project?.title || 'Project not found';
+    const description = project?.description || 'No description available';
+    const createdBy = project?.createdBy || 'Unknown';
+
+    if (!project) {
+        navigate('/not-found', { replace: true });
+        return null;
+    }
 
     return (
         <div>
             <div className='flex justify-start mt-2 mb-2'>
-                <h2 className='text-3xl font-bold '>{project.title}</h2>
+                <h2 className='text-3xl font-bold '>{title}</h2>
             </div>
 
             <div className='flex justify-start text-lg mt-1 mb-1 ml-2'>
-                {project.description}
+                {description}
             </div>
 
             <div className='flex justify-start text-md mt-1 mb-1 ml-2'>
                 <p className='italic '>Created by</p>
                 <span>&nbsp;</span>
-                <span className='font-bold'> {project.createdBy}</span>
+                <span className='font-bold'> {createdBy}</span>
                 .
             </div>
 
             {/* 按钮 */}
             <div className="flex justify-between mt-4">
                 {/* 返回按钮 */}
-                <BackButton />
+                <BackButton projectId={projectId} />
 
-                {project.createdBy === currentUser && (
+                {createdBy === currentUser && (
                     <>
                         {/* 编辑项目按钮 */}
                         <EditButton projectId={projectId} />
@@ -127,9 +152,6 @@ const ProjectDetail = () => {
                         <NewTaskButton projectId={projectId} />
                     </>
                 )}
-
-                {/* 任务列表按钮 */}
-                <TasksButton projectId={projectId} />
             </div>
 
             <main>

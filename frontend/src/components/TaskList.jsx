@@ -7,15 +7,18 @@ import TaskItem from './TaskItem';
 const TaskList = () => {
     const { projectId } = useParams();
     const dispatch = useDispatch();
+
+    // 获取任务列表
     const tasks = useSelector((state) => state.tasks.tasks);
     const loading = useSelector((state) => state.tasks.loading);
     const error = useSelector((state) => state.tasks.error);
-    const currentUser = useSelector(state => state.login.user?.username || 'User');
+
+    // 获取当前登录的用户
+    const currentUser = useSelector(state => state.login.user?.username || 'NOT LOGGED IN');
 
     useEffect(() => {
         dispatch(fetchTasks(projectId));
-        console.log("Got tasks.")
-
+        console.log("Loaded tasks at Task List.")
     }, [dispatch, projectId]);
 
     if (loading) {
@@ -54,7 +57,7 @@ const TaskList = () => {
                 <div className="space-y-4">
                     {tasks.map(task => (
                         <div key={task.id}>
-                            <TaskItem task={task} currentUser={currentUser} />
+                            <TaskItem task={task} currentUser={currentUser} dispatch={dispatch} />
                         </div>
                     ))}
                 </div>

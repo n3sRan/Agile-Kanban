@@ -63,7 +63,7 @@ const CommentItem = ({ comment, currentUser, dispatch }) => {
             <div>
                 {/* 评论时间 */}
                 <div className="text-gray-500 text-md">
-                    {moment(comment.createdAt).fromNow()}
+                    {moment(comment.createdAt).format('lll')}
                 </div>
                 {/* 删除按钮 */}
                 {currentUser === comment.username && (

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteProject, fetchProjects } from '../store/modules/projectStore';
 
 // 删除按钮
@@ -72,10 +72,15 @@ const ProjectItem = ({ project, currentUser }) => {
     return (
 
         <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200 hover:bg-gray-100">
-            <h3 className="text-lg mb-2">
+            {/* 项目名称 */}
+            <div className="text-2xl font-bold mb-2">
                 {project.title}
-            </h3>
+            </div>
+            <div>
+                Created by <span className='font-bold'>{project.createdBy}</span>
+            </div>
 
+            {/* 交互按钮 */}
             <div className="flex justify-between mt-4">
 
                 <div>
