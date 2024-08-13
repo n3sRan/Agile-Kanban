@@ -9,8 +9,9 @@ export class APIController {
   @Inject()
   attachmentService: AttachmentService;
 
+  // 上传附件
   @Post('/upload')
-  async upload(@Files() files, @Fields() fields) {
+  async uploadAttachment(@Files() files, @Fields() fields) {
     const taskId = fields.taskId;
     const uploadBy = fields.uploadBy
     const fileUrls = [];
@@ -26,11 +27,13 @@ export class APIController {
     return { message: 'Files uploaded successfully.', fileUrls, taskId };
   }
 
+  // 获取附件列表
   @Get('/upload')
   async getAttachments(): Promise<any> {
     return this.attachmentService.getAttachments();
   }
 
+  // 删除附件
   @Del('/upload/:id')
   async deleteAttachment(@Param('id') id: string): Promise<{ message: string }> {
     try {

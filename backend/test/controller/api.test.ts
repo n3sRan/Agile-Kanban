@@ -19,7 +19,7 @@ describe('ApiController Integration Test', () => {
         await close(app);
     });
 
-    // 获取评论列表
+    // 获取附件列表
     it('should return all attachments', async () => {
         const result = await createHttpRequest(app).get('/api/upload');
         expect(result.status).toBe(200);

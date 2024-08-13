@@ -12,6 +12,7 @@ export class UserService {
     this.usersFilePath = path.join(__dirname, '..', '..', 'data', 'users.json');
   }
 
+  // 加载用户
   async loadUsers(): Promise<User[]> {
     try {
       const data = await fs.readFile(this.usersFilePath, 'utf-8');
@@ -22,6 +23,7 @@ export class UserService {
     }
   }
 
+  // 保存用户
   async saveUsers(users: User[]): Promise<void> {
     try {
       const data = JSON.stringify(users, null, 2);
@@ -31,6 +33,7 @@ export class UserService {
     }
   }
 
+  // 登录验证
   async login(username: string, password: string): Promise<User | null> {
     const users = await this.loadUsers();
     const user = users.find((u) => u.username === username);
@@ -43,6 +46,7 @@ export class UserService {
     return user;
   }
 
+  // 添加用户
   async addUser(username: string, password: string): Promise<User> {
     const users = await this.loadUsers();
 
@@ -57,5 +61,17 @@ export class UserService {
     users.push(newUser);
     await this.saveUsers(users);
     return newUser;
+  }
+
+  // 删除用户
+  async deleteUser(username: string): Promise<void> {
+    const users = await this.loadUsers();
+
+    const index = users.findIndex(user => user.username === username);
+    if (index === -1) {
+      throw new Error('User not found');
+    }
+    users.splice(index, 1);
+    await this.saveUsers(users);
   }
 }

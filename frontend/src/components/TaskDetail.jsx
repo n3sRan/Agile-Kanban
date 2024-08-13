@@ -81,12 +81,12 @@ const TaskDetail = () => {
 
                     {/* 创建时间 */}
                     <div className="text-gray-700 mb-2">
-                        Created at {moment(task.createdAt).format('LLLL')}.
+                        Created at {moment(task.createdAt).format('LLL')}.
                     </div>
 
                     {/* 更新时间 */}
                     <div className="text-gray-700">
-                        Updated at {moment(task.updatedAt).format('LLLL')}.
+                        Updated at {moment(task.updatedAt).format('LLL')}.
                     </div>
                 </div>
 

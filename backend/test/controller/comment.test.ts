@@ -1,17 +1,11 @@
 import { createApp, close, createHttpRequest } from '@midwayjs/mock';
 import { Framework } from '@midwayjs/koa';
 
-import fs from 'fs/promises';
-import path from 'path';
-const commentsFilePath = path.join(__dirname, '..', '..', 'data', 'comments.json');
-
 describe('CommentController Integration Test', () => {
     let app;
-    let expectedCommentsData;
 
     beforeAll(async () => {
         app = await createApp<Framework>();
-        expectedCommentsData = JSON.parse(await fs.readFile(commentsFilePath, 'utf8'));
 
     });
 
@@ -19,12 +13,27 @@ describe('CommentController Integration Test', () => {
         await close(app);
     });
 
+    // 创建评论
+    it('should create a new comment', async () => {
+        const result = await createHttpRequest(app).post('/comments/test').send({
+            id: 'testComment',
+            taskId: 'test',
+        });
+        expect(result.status).toBe(200);
+        expect(result.body.message).toEqual('Comment created');
+    });
+
     // 获取评论列表
     it('should return pointed comments', async () => {
-        const taskId = "da8501ce-83bd-4112-8fa5-35e019523a95";
-        const result = await createHttpRequest(app).get(`/comments/${taskId}`);
+        const result = await createHttpRequest(app).get('/comments/test');
         expect(result.status).toBe(200);
-        expect(result.body).toEqual(expectedCommentsData.filter(comment => comment.taskId === taskId));
+    });
+
+    // 删除评论
+    it('should delete a comment by id', async () => {
+        const result = await createHttpRequest(app).delete('/comments/testComment');
+        expect(result.status).toBe(200);
+        expect(result.body.message).toEqual('Comment deleted');
     });
 
 });

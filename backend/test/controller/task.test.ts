@@ -19,11 +19,30 @@ describe('TaskController Integration Test', () => {
         await close(app);
     });
 
-    // 获取任务列表
+    // 获取所有任务
     it('should return all tasks', async () => {
         const result = await createHttpRequest(app).get('/tasks');
         expect(result.status).toBe(200);
         expect(result.body).toEqual(expectedTasksData);
     });
 
+    // 创建任务
+    it('should create a new task', async () => {
+        const result = await createHttpRequest(app).post('/tasks/projects/test').send({
+            id: 'testTask',
+            projectId: 'test',
+            title: 'test',
+            description: 'test',
+            status: "NOT START",
+        });
+        expect(result.status).toBe(200);
+        expect(result.body.message).toEqual('Task created');
+    });
+
+    // 删除任务
+    it('should delete a task by id', async () => {
+        const result = await createHttpRequest(app).delete('/tasks/testTask');
+        expect(result.status).toBe(200);
+        expect(result.body.message).toEqual('Task deleted');
+    });
 });

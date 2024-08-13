@@ -32,9 +32,9 @@ export class ProjectController {
 
     // 更新指定项目
     @Put('/:id')
-    async updateTask(@Param('id') id: string, @Body() projectData: any) {
+    async updateProject(@Param('id') id: string, @Body() projectData: any) {
         const updatedProject = await this.projectService.updateProject(id, projectData);
-        return { message: 'Project updated', task: updatedProject };
+        return { message: 'Project updated', project: updatedProject };
     }
 
     // 删除指定项目

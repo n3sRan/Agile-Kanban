@@ -26,11 +26,31 @@ describe('ProjectController Integration Test', () => {
         expect(result.body).toEqual(expectedProjectsData);
     });
 
+    // 创建项目
+    it('should create a new project', async () => {
+        const result = await createHttpRequest(app).post('/projects').send({
+            id: 'test',
+            title: 'test',
+            description: 'test',
+            createdAt: new Date(),
+            createdBy: 'test',
+        });
+        expect(result.status).toBe(200);
+        expect(result.body.message).toEqual('Project created');
+    });
 
     // 获取指定项目
     it('should return a project by id', async () => {
-        const result = await createHttpRequest(app).get('/projects/92b40389-e054-4a42-9fd6-450517057452');
+        const result = await createHttpRequest(app).get('/projects/test');
         expect(result.status).toBe(200);
-        // Add assertions for the data returned
+        // expect(result.body.project.title).toEqual('test');
+    });
+
+
+    // 删除指定项目
+    it('should delete a project by id', async () => {
+        const result = await createHttpRequest(app).delete('/projects/test');
+        expect(result.status).toBe(200);
+        expect(result.body.message).toEqual('Project deleted');
     });
 });

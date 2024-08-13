@@ -27,23 +27,28 @@ describe('UserController Integration Test', () => {
         expect(result.body).toEqual(expectedUsersData);
     });
 
+    // 注册
+    it('should create a new user', async () => {
+        const result = await createHttpRequest(app).post('/users').send({ username: 'admin', password: 'admin' });
+        expect(result.status).toBe(200);
+    });
+
     // 登录
     it('should log a user in', async () => {
         const result = await createHttpRequest(app).post('/users/login').send({ username: 'admin', password: 'admin' });
         expect(result.status).toBe(200);
+    });
+
+    // 获取用户
+    it('should return a user by username', async () => {
+        const result = await createHttpRequest(app).get('/users/admin');
+        expect(result.status).toBe(200);
         // Add assertions for the data returned
     });
 
-    // 注册
-    // it('should create a new user', async () => {
-    //     const result = await createHttpRequest(app).post('/users').send({ username: 'test_new', password: 'test_new' });
-    //     expect(result.status).toBe(200);
-    //     // Add assertions for the data returned
-    // });
-
-    // 获取用户
-    it('should return a user by id', async () => {
-        const result = await createHttpRequest(app).get('/users/00001');
+    // 删除用户
+    it('should delete a user by username', async () => {
+        const result = await createHttpRequest(app).delete('/users/admin');
         expect(result.status).toBe(200);
         // Add assertions for the data returned
     });

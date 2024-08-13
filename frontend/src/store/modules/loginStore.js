@@ -18,12 +18,8 @@ const loginStore = createSlice({
     },
 });
 
-// 解构出action creators
 const { login, logout } = loginStore.actions;
-// 获取reducer
 const reducer = loginStore.reducer;
 
-// 以按需导出的方式导出action creators
 export { login, logout };
-// 以默认导出的方式导出reducer
 export default reducer;

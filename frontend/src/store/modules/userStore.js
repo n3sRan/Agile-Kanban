@@ -3,11 +3,13 @@ import axios from 'axios';
 
 const usersUrl = 'http://127.0.0.1:7001/users';
 
+// 获取用户列表
 export const fetchUsers = createAsyncThunk('users/fetchAll', async () => {
     const response = await axios.get(usersUrl);
     return response.data;
 });
 
+// 注册用户
 export const registerUser = createAsyncThunk('users/register',
     async ({ username, password }, { rejectWithValue }) => {
         try {

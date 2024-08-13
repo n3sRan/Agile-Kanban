@@ -19,6 +19,12 @@ const Register = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // 占位
+        if (username === 'admin') {
+            alert('Username already exists');
+            return;
+        }
+
         const userExists = users.some((user) => user.username === username);
         if (userExists) {
             alert('Username already exists');

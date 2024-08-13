@@ -29,22 +29,11 @@ const TaskList = () => {
         { type: 'todo', text: 'Unfinished' },
     ]
 
-    const [showTasks, setShowTasks] = useState(tasks);
     const [type, setType] = useState('all');
 
     const handleTabChange = (type) => {
         console.log(`Task List at Type: ${type}`);
         setType(type)
-        if (tasks) {
-            if (type === 'all') {
-                setShowTasks(tasks);
-            } else if (type === 'my') {
-                setShowTasks(tasks.filter(task => task.assignedTo === currentUser));
-            } else if (type === 'todo') {
-                setShowTasks(tasks.filter(task => (task.status === 'NOT START' || task.status === 'PROGRESSING')))
-            }
-        }
-
     }
 
     // 渲染

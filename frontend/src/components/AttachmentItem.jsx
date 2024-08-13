@@ -1,4 +1,4 @@
-import moment from 'moment'; // 用于格式化时间
+import moment from 'moment';
 import { deleteAttachment, fetchAttachments } from '../store/modules/attachmentStore';
 
 // 删除附件按钮

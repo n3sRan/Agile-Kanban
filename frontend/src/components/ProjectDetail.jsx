@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useNavigate, Outlet } from 'react-router-dom';
 import { fetchProjects, deleteProject } from '../store/modules/projectStore';
+import moment from 'moment';
+
 
 // 返回按钮
 const BackButton = ({ projectId }) => {
@@ -79,18 +81,6 @@ const DeleteButton = ({ projectId, navigate }) => {
     )
 }
 
-// 列表按钮
-const TasksButton = ({ projectId }) => {
-    return (
-        <Link to={`/dashboard/projects/${projectId}/tasks`}
-            className="bg-blue-500 hover:bg-blue-700 
-                text-lg text-white hover:text-white 
-                font-bold 
-                py-2 px-4 rounded">
-            Tasks List
-        </Link>
-    );
-}
 
 const ProjectDetail = () => {
     const navigate = useNavigate();
@@ -112,6 +102,7 @@ const ProjectDetail = () => {
     const title = project?.title || 'Project not found';
     const description = project?.description || 'No description available';
     const createdBy = project?.createdBy || 'Unknown';
+    const createdAt = project?.createdAt || 'Unknown';
 
     if (!project) {
         navigate('/not-found', { replace: true });
@@ -133,6 +124,10 @@ const ProjectDetail = () => {
                 <span>&nbsp;</span>
                 <span className='font-bold'> {createdBy}</span>
                 .
+            </div>
+
+            <div className='flex justify-start text-md mt-1 mb-1 ml-2'>
+                Created at {moment(createdAt).format('LLL')}.
             </div>
 
             {/* 按钮 */}
