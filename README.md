@@ -12,7 +12,7 @@
 npm install pm2 -g
 ```
 
-在 `backend`目录下输入以下指令以启动后端服务
+在`backend`目录下输入以下指令以启动后端服务
 
 ```bash
 pm2 start ./bootstrap.js --name [backend]
@@ -33,6 +33,15 @@ serve -s dist
 ```
 
 访问`http://localhost:3000/`即可打开前端页面
+
+### 1.3 开发模式下运行
+
+分别在`bakcend`和`frontend`目录下运行以下指令:
+
+```bash
+npm install
+npm run dev
+```
 
 ## 2 功能介绍
 
