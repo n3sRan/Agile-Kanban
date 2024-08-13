@@ -27,16 +27,16 @@
     "status": "NOT START",
     "assignedTo": "Maple",
     "createdAt": "2024-08-12T08:37:15.617Z",
-    "updatedAt": "2024-08-12T12:49:40.101Z"
+    "updatedAt": "2024-08-13T08:18:14.886Z"
   },
   {
     "id": "c018f918-804b-4cc5-a264-4209855dc64a",
     "projectId": "92b40389-e054-4a42-9fd6-450517057452",
     "title": "Construction",
     "description": "Finish construction of the project.",
-    "status": "NOT START",
+    "status": "REVIEWED",
     "assignedTo": "Maple",
     "createdAt": "2024-08-12T12:52:20.427Z",
-    "updatedAt": "2024-08-12T12:52:20.427Z"
+    "updatedAt": "2024-08-13T08:08:40.253Z"
   }
 ]

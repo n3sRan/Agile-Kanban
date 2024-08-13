@@ -63,7 +63,7 @@ export const StatusButton = ({ task, dispatch, currentUser, createdBy }) => {
             updatedAt: new Date(),
         })).then(() => {
             dispatch(fetchTasks(task.projectId));
-            console.log("Updated Tasks.");
+            console.log(`Updated Tasks,status: ${nextStatus}.`);
         }).catch(error => {
             console.error('Error updating task:', error);
         });

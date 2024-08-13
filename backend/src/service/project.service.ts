@@ -51,7 +51,24 @@ export class ProjectService {
         if (index === -1) {
             throw new Error('Project not found');
         }
-        projects[index] = { ...projects[index], ...projectData };
+
+        const originalParticipants = projects[index].participants;
+        const updatedProject = { ...projects[index], ...projectData };
+        projects[index] = updatedProject;
+
+        // 寻找被删除的参与者，将其负责的任务改为由项目创建者负责
+        const removedParticipants = originalParticipants.filter(participant => !updatedProject.participants.includes(participant));
+
+        if (removedParticipants.length > 0) {
+            const taskService = new TaskService();
+            for (const participant of removedParticipants) {
+                const tasks = await taskService.listTasks(projectId, participant);
+                for (const task of tasks) {
+                    await taskService.updateTask(task.id, { assignedTo: updatedProject.createdBy }); // 假设createdBy是更新项目数据中的一部分
+                }
+            }
+        }
+
         await this.saveProjects(projects);
         return projects[index];
     }

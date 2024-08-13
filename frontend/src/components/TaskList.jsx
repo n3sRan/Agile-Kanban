@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchTasks } from '../store/modules/taskStore';
 import TaskItem from './TaskItem';
+
 
 const TaskList = () => {
     const { projectId } = useParams();
@@ -17,10 +18,36 @@ const TaskList = () => {
     const currentUser = useSelector(state => state.login.user?.username || 'NOT LOGGED IN');
 
     useEffect(() => {
-        dispatch(fetchTasks(projectId));
-        console.log("Loaded tasks at Task List.")
+        dispatch(fetchTasks(projectId)).then(() => {
+            console.log("Loaded tasks at Task List.")
+        });
     }, [dispatch, projectId]);
 
+    const tabs = [
+        { type: 'all', text: 'All Tasks' },
+        { type: 'my', text: 'My Tasks' },
+        { type: 'todo', text: 'Unfinished' },
+    ]
+
+    const [showTasks, setShowTasks] = useState(tasks);
+    const [type, setType] = useState('all');
+
+    const handleTabChange = (type) => {
+        console.log(`Task List at Type: ${type}`);
+        setType(type)
+        if (tasks) {
+            if (type === 'all') {
+                setShowTasks(tasks);
+            } else if (type === 'my') {
+                setShowTasks(tasks.filter(task => task.assignedTo === currentUser));
+            } else if (type === 'todo') {
+                setShowTasks(tasks.filter(task => (task.status === 'NOT START' || task.status === 'PROGRESSING')))
+            }
+        }
+
+    }
+
+    // 渲染
     if (loading) {
         return (
             <div className="flex items-center justify-center mt-16 mb-16">
@@ -45,8 +72,21 @@ const TaskList = () => {
                 Tasks
             </h2>
 
+            {/* 导航 */}
+            <div className='flex justify-start'>
+                {tabs.map(item =>
+                    <button
+                        key={item.type}
+                        onClick={() => handleTabChange(item.type)}
+                        className={`text-lg text-white hover:text-white font-bold py-2 px-4 rounded mr-2 mb-2
+                        ${type === item.type ? 'bg-yellow-300 hover:bg-yellow-500' : 'bg-gray-500 hover:bg-gray-700'}`}>
+                        {item.text}
+                    </button>
+                )}
+            </div>
+
             {/* 任务 */}
-            {tasks.length === 0 ? (
+            {type === 'all' && (tasks.length === 0 ? (
                 <div className="text-center mt-16 mb-16">
                     <h3 className="text-lg font-bold mb-2">
                         No tasks found.
@@ -61,7 +101,39 @@ const TaskList = () => {
                         </div>
                     ))}
                 </div>
-            )}
+            ))}
+
+            {type === 'my' && ((tasks.filter(task => task.assignedTo === currentUser)).length === 0 ? (
+                <div className="text-center mt-16 mb-16">
+                    <h3 className="text-lg font-bold mb-2">
+                        No tasks found.
+                    </h3>
+                </div>
+            ) : (
+                <div className="space-y-4">
+                    {(tasks.filter(task => task.assignedTo === currentUser)).map(task => (
+                        <div key={task.id}>
+                            <TaskItem task={task} currentUser={currentUser} dispatch={dispatch} />
+                        </div>
+                    ))}
+                </div>
+            ))}
+
+            {type === 'todo' && ((tasks.filter(task => (task.status === 'NOT START' || task.status === 'PROGRESSING'))).length === 0 ? (
+                <div className="text-center mt-16 mb-16">
+                    <h3 className="text-lg font-bold mb-2">
+                        No tasks found.
+                    </h3>
+                </div>
+            ) : (
+                <div className="space-y-4">
+                    {(tasks.filter(task => (task.status === 'NOT START' || task.status === 'PROGRESSING'))).map(task => (
+                        <div key={task.id}>
+                            <TaskItem task={task} currentUser={currentUser} dispatch={dispatch} />
+                        </div>
+                    ))}
+                </div>
+            ))}
         </div>
     );
 };

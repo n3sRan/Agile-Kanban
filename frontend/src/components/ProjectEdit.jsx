@@ -27,9 +27,17 @@ const ProjectEdit = () => {
     }
 
     // 获取当前登录的用户名
-    const currentUser = useSelector(state => state.login.user?.username || 'User');
+    const currentUser = useSelector(state => state.login.user?.username || 'NOT LOGGED IN');
     // 获取所有用户列表以供选择项目参与者
     const users = useSelector(state => state.users.users);
+
+    useEffect(() => {
+        if (!users || users.length === 0) {
+            dispatch(fetchUsers());
+            console.log(" Users Loaded at Edit.");
+        }
+        setParticipants((formatUsersAsOptions(users).filter(user => user.value !== currentUser)).filter(option => project.participants.includes(option.value)));
+    }, [users, dispatch]);
 
     // 准备选项格式
     const formatUsersAsOptions = (users) => {
@@ -48,12 +56,6 @@ const ProjectEdit = () => {
     const [title, setTitle] = useState(project.title);
     const [description, setDescription] = useState(project.description);
     const [participants, setParticipants] = useState(options.filter(option => project.participants.includes(option.value)));
-
-
-    // 在组件加载时获取用户列表
-    useEffect(() => {
-        dispatch(fetchUsers());
-    }, [dispatch]);
 
     // 处理提交
     const handleSave = () => {

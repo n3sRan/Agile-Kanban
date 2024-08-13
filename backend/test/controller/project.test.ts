@@ -29,7 +29,7 @@ describe('ProjectController Integration Test', () => {
 
     // 获取指定项目
     it('should return a project by id', async () => {
-        const result = await createHttpRequest(app).get('/projects/b42460a9-79e9-4618-bad9-dbf97db01ccd');
+        const result = await createHttpRequest(app).get('/projects/92b40389-e054-4a42-9fd6-450517057452');
         expect(result.status).toBe(200);
         // Add assertions for the data returned
     });

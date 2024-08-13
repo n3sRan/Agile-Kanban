@@ -43,7 +43,7 @@ describe('UserController Integration Test', () => {
 
     // 获取用户
     it('should return a user by id', async () => {
-        const result = await createHttpRequest(app).get('/users/1');
+        const result = await createHttpRequest(app).get('/users/00001');
         expect(result.status).toBe(200);
         // Add assertions for the data returned
     });

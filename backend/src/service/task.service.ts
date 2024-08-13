@@ -46,12 +46,12 @@ export class TaskService {
         return newTask;
     }
 
-    // 列出指定项目的任务
-    async listTasks(projectId: string, status?: string): Promise<Task[]> {
+    // 列出指定项目（负责人）的任务
+    async listTasks(projectId: string, assignedTo?: string): Promise<Task[]> {
         const tasks = await this.loadTasks();
         let filteredTasks = tasks.filter(task => task.projectId === projectId);
-        if (status) {
-            filteredTasks = filteredTasks.filter(task => task.status === status);
+        if (assignedTo) {
+            filteredTasks = filteredTasks.filter(task => task.assignedTo === assignedTo);
         }
         return filteredTasks;
     }
